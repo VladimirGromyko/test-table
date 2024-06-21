@@ -14,6 +14,7 @@
 
 <script setup lang="ts">
 import VuePagination from "@/components/Pagination/VuePagination.vue";
+import { defineProps, defineEmits } from "vue"
 
 defineProps<{
   maxPage: number;
