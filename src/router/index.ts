@@ -15,14 +15,14 @@ const router = createRouter({
     {
       path: '/table',
       name: 'table',
-      component: () => import('../Pages/JournalTable/AboutView.vue'),
+      component: () => import('../Pages/JournalTable/index.vue'),
       meta: {
         title: "Таблица"
       },
       children: [
         {
           path: ":pid",
-          component: () => import('../Pages/JournalTable/AboutView.vue'),
+          component: () => import('../Pages/JournalTable/index.vue'),
         }
       ]
     }

@@ -7,10 +7,8 @@ import HelloWorld from '@/Pages/JournalTable/HelloWorld.vue'
 <template>
   <header>
     <div class="wrapper">
-<!--      <HelloWorld msg="You did it!" />-->
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/table">Table</RouterLink>
       </nav>
     </div>
   </header>

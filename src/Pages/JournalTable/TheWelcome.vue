@@ -4,5 +4,5 @@ import HelloWorld from '@/Pages/JournalTable/HelloWorld.vue'
 </script>
 
 <template>
-  <HelloWorld msg="MyPage" />
+  <HelloWorld msg="Информация о пользователях" />
 </template>

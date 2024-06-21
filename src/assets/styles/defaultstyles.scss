@@ -1,0 +1,148 @@
+@mixin buttonDefault {
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+@mixin container {
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(33, 33, 52, 0.1);
+}
+
+@mixin bordeR {
+  border-radius: 4px;
+}
+
+@mixin resetBtn {
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+@mixin shadow {
+  box-shadow: 0 1px 4px rgba(26, 26, 67, 0.1);
+}
+@mixin shadowM {
+  box-shadow: 0 2px 15px rgba(33, 33, 52, 0.1);
+}
+
+@mixin pad {
+  padding: 10px 20px;
+}
+
+@mixin timeTransition($arguments...) {
+  transition-duration: 0.3s;
+  transition-property: $arguments;
+}
+@mixin SubExpand {
+  padding: 10px 20px;
+  background: $neutral100;
+  color: $primary600;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  @include bordeR;
+  @include shadow;
+  @include timeTransition(background-color, color);
+
+  &.open {
+    background-color: $primary100;
+    color: $primary500;
+  }
+
+  &:hover {
+    color: $primary500;
+  }
+}
+
+@mixin links {
+  color: $primary600;
+  cursor: pointer;
+  @include timeTransition(color);
+
+  &:hover {
+    color: $primary500;
+  }
+}
+
+@mixin title($size) {
+  color: $neutral800;
+  font-weight: bold;
+  font-size: $size+px;
+}
+
+
+@mixin rowString {
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    width: 100%;
+    margin-bottom: 10px;
+    gap: 10px;
+  }
+  .row-label {
+    width: 240px;
+    color: $alternative800;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .row-value {
+    margin-left: 15px;
+    text-align: left;
+  }
+}
+
+@mixin buttonPanel {
+  .control-button-panel {
+    @include pad;
+    border-bottom: 1px solid $neutral150;
+  }
+}
+
+@mixin pageWrapper {
+  .page-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+}
+
+@mixin status {
+  .status-text {
+    display: inline-flex;
+    justify-content: center;
+    padding: 2px 10px;
+    border-radius: 4px;
+    color: $white;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+}
+
+@mixin selectSingle {
+  .vs__selected-options {
+    margin: 0;
+    padding: 0;
+    .vs__selected {
+      display: block;
+      padding: 5px 18px 0 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  #vs1__combobox {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+  }
+  .vs__search:focus {
+    padding: 0;
+  }
+}
