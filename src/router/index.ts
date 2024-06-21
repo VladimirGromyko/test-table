@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../Pages/JournalTable/HomeView.vue'
+import HomeView from '../Pages/Home/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,14 +15,14 @@ const router = createRouter({
     {
       path: '/table',
       name: 'table',
-      component: () => import('../Pages/JournalTable/index.vue'),
+      component: () => import('../Pages/Journal/index.vue'),
       meta: {
         title: "Таблица"
       },
       children: [
         {
           path: ":pid",
-          component: () => import('../Pages/JournalTable/index.vue'),
+          component: () => import('../Pages/Journal/index.vue'),
         }
       ]
     }

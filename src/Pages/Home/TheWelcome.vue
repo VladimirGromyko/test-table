@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HelloWorld from '@/Pages/JournalTable/HelloWorld.vue'
+import HelloWorld from '@/Pages/Journal/HelloWorld.vue'
 
 </script>
 
