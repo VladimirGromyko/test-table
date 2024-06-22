@@ -5,11 +5,26 @@ import { Toastify } from '@/stores/utils'
 import userData from '@/assets/data/api.json'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
+import moment from 'moment'
 
-export const useMainStore = defineStore("MainStore", () => {
+export interface UserCharacteristics {
+  picture: string,
+  fullName: string,
+  gender: string,
+  country: string,
+  dob: string,
+  email: string,
+  phone: string,
+}
+
+export const useMainStore = defineStore("Main", () => {
 
   const visible = ref(false);
-  const users: Ref<any[]> = ref([]);
+  const setFilterVisibility = () => {
+    visible.value = !visible.value
+  }
+
+  const users: Ref<UserCharacteristics[]> = ref([]);
   const getUsers = async() => {
     debugger
     try {
@@ -20,14 +35,23 @@ export const useMainStore = defineStore("MainStore", () => {
       JSON.parse(JSON.stringify(userData))
       debugger
       console.log(response)
-
-      // TODO преобразовать массив
-
-      users.value = response.results
+      const data: UserCharacteristics[] = response.results.map((item) => {
+        return {
+          picture: item.picture.medium,
+          fullName: `${item.name.title} ${item.name.first} ${item.name.last}`,
+          gender: item.gender,
+          country: item.location.country,
+          dob: moment(item.dob.date).format('Do MMMM YYYY'),
+          email: item.email,
+          phone: item.phone,
+        }
+      })
+      users.value = data
     } catch (e) {
       Toastify("Ошибка при разборе данных", "error")
     }
   }
 
-  return { visible, users, getUsers};
+
+  return { visible, setFilterVisibility, users, getUsers};
 });

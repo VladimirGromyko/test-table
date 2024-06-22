@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import VuePagination from "@/components/Pagination/VuePagination.vue";
+import VuePagination from "@/components/Pagination/Pagination.vue";
 import { defineProps, defineEmits } from "vue"
 
 defineProps<{

@@ -1,37 +1,50 @@
 <script setup lang='ts'>
-import { computed, defineProps } from 'vue'
-import moment from "moment";
+import { defineProps } from 'vue'
+import { UserCharacteristics } from '@/stores/store'
 
-const props = defineProps({
-  tableData: { type: Array, required: true }
-})
-const fullName = (user) => {
-  debugger
-  return `${user.name.title} ${user.name.first} ${user.name.last}`
+interface Props {
+  tableData: UserCharacteristics[]
 }
-debugger
+
+const props = defineProps<Props>()
+
 console.log(props.tableData)
 </script>
 
 <template>
-  <div v-for='(user, index) in tableData'>
-    <div :key='`${index}-user`'>
-        <div class='packsStyle.itemsLongName'>
-          <img :src="user.picture.medium" alt="" />
-        </div>
-        <div class='packsStyle.itemsLongName'>{{fullName(user)}}</div>
-        <div class='packsStyle.item'>{{ user.gender }}</div>
-        <div class='packsStyle.item'>{{ user.location.country }}</div>
-        <div class='packsStyle.item'>{{ moment(user.dob.date ).format('Do MMMM YYYY') }}</div>
-        <div class='packsStyle.item'>{{ user.email }}</div>
-        <div class='packsStyle.item'>{{ user.phone }}</div>
+  <div v-for='(user, index) in props.tableData'
+       :key='`${index}-user`'
+       class="user-table"
+  >
+    <div class="user-column">
+      <img :src='user.picture' alt='' />
     </div>
+    <div class="user-column">{{ user.fullName }}</div>
+    <div class="user-column">{{ user.gender }}</div>
+    <div class="user-column">{{ user.country }}</div>
+    <div class="user-column">{{ user.dob }}</div>
+    <div class="user-column e-mail">{{ user.email }}</div>
+    <div class="user-column">{{ user.phone }}</div>
   </div>
-
 </template>
 
 
-
-<style scoped>
-
+<style scoped lang="scss">
+.user-table {
+  display: grid;
+  grid-template-columns: 2fr 3fr 2fr 2fr 3fr 5fr auto;
+  padding: 5px 60px 5px 20px;
+}
+.user-column {
+  display: flex;
+  min-width: 100px;
+  padding: 5px 10px;
+  align-items: center;
+  img {
+    border-radius: 50%;
+  }
+}
+.e-mail {
+  min-width: 220px;
+}
 </style>

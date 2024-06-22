@@ -6,8 +6,10 @@ import PageInfoJournalHeader from '@/components/PageInfo/PageInfoJournalHeader.v
 import Search from './Search.vue'
 import Footer from './Footer.vue'
 import { merge, range } from "lodash";
-import { useMainStore } from '@/stores/store'
+// import { useMainStore } from '@/stores/store'
 import Table from '@/Pages/Journal/Table/Table.vue'
+import TableHeader from '@/Pages/Journal/Table/TableHeader.vue'
+import { useMainStore } from '@/stores/store'
 
 const store = useMainStore();
 
@@ -31,6 +33,7 @@ const data = ref({
 //
 //   return `?${qs.stringify(query)}${filter}`;
 // };
+const filterVisible = computed(() => store.visible)
 const handleChangeVisibleFilter = () => {
   store.visible = !store.visible;
 };
@@ -88,14 +91,24 @@ const tableData = computed(() =>
     )
     : []
 );
-
+const users = computed(() => store.users)
 const userData: Ref<any> = ref([]);
 
 const lookThrough = (value: string) => {
   debugger
-  const newData = userData.value.filter((el) => {
-    const userFieldValues = Object.values(el)
-    return userFieldValues.includes(value)
+  const newData = users.value.filter((el) => {
+    let check = false
+    const userFieldKeys = Object.keys(el)
+    for (let i = 0; i < userFieldKeys.length; i++) {
+      const item = userFieldKeys[i]
+      if(item !== "picture") {
+        check = el[item].includes(value)
+        if (check) {
+          break
+        }
+      }
+    }
+    return check
   })
   userData.value = newData
 }
@@ -103,7 +116,7 @@ const lookThrough = (value: string) => {
 onMounted(()=> {
   store.getUsers()
 })
-watch(()=> store.users, (newVal) => {
+watch(()=> users.value, (newVal) => {
   debugger
   console.log(newVal)
   userData.value = newVal.length ? newVal : []
@@ -111,26 +124,29 @@ watch(()=> store.users, (newVal) => {
 </script>
 
 <template>
-  <div class="page-wrapper">
-    <RouterLink to="/">Вернуться в начало</RouterLink>
-    <div class="top-panel">
-      <PageInfoJournalHeader title="Таблица пользователей" @filter="handleChangeVisibleFilter" />
-      <Search @lookThrough='lookThrough'/>
+  <main>
+    <div class="page-wrapper">
+      <div class="top-panel">
+        <PageInfoJournalHeader title="Таблица пользователей" @filter="store.setFilterVisibility" />
+        <Search @lookThrough='lookThrough'/>
+      </div>
+<!--      <div>-->
+<!--        Пользователи:-->
+<!--      </div>-->
+      <TableHeader />
+      <Table :tableData='userData' />
+      <Footer
+        :max-page="data?.maxPage ?? 0"
+        :current-page="pgnData.pageNum"
+        :current-size="pgnData.size"
+        :total="data?.totalCount ?? 0"
+        @current="handleCurrentChange"
+        @page="setCurrentPage"
+        @size="handleSizeChange"
+      />
     </div>
-    <div>
-      Пользователи:
-    </div>
-    <Table :tableData='userData' />
-    <Footer
-      :max-page="data?.maxPage ?? 0"
-      :current-page="pgnData.pageNum"
-      :current-size="pgnData.size"
-      :total="data?.totalCount ?? 0"
-      @current="handleCurrentChange"
-      @page="setCurrentPage"
-      @size="handleSizeChange"
-    />
-  </div>
+  </main>
+
 </template>
 
 <style lang="scss" scoped>

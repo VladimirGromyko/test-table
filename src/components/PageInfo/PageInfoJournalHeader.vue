@@ -13,6 +13,7 @@
 
 <script setup lang="ts">
 import FilterIcon from "@/assets/image/filter.svg";
+import { defineEmits, defineProps } from 'vue'
 
 defineProps<{
   title: string;
@@ -26,7 +27,7 @@ const handleClickFilter = () => {
 .button-wrapper {
   @include pad;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   color: $neutral700;
   font-size: 24px;
@@ -36,6 +37,9 @@ const handleClickFilter = () => {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    h1 {
+      font-size: 24px;
+    }
   }
   .filter-btn {
     height: 30px;

@@ -1,9 +1,20 @@
 <script setup lang="ts">
-import TheWelcome from './TheWelcome.vue'
+
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <div class="wrapper">
+      <h1>Информация о проекте</h1>
+    </div>
   </main>
 </template>
+
+<style lang="scss" scoped>
+.wrapper {
+  h1 {
+    padding: 2rem;
+    font-size: 18px;
+  }
+}
+</style>

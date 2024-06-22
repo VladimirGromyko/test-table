@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { useMainStore } from '@/stores/store'
-import { Ref, ref } from 'vue'
+import { computed, Ref, ref } from 'vue'
 import { defineEmits } from 'vue'
 
 const emit = defineEmits(['lookThrough'])
 
 const search = useMainStore();
+const visibility = computed(() => search.visible)
 const searchString: Ref<string> = ref('')
 
 
@@ -17,12 +18,22 @@ const handleInput = () => {
 </script>
 
 <template>
-  <div v-show="search.visible">
+  <div v-show="visibility" class="wrapper">
     <div>А сейчас поищем что-нибудь</div>
-    <input v-model='searchString' @input='handleInput' type='text'>
+    <input v-model='searchString' type='text'>
+    <button @click='handleInput'>Поиск</button>
   </div>
 </template>
 
-<style scoped>
-
+<style scoped lang="scss">
+.wrapper {
+  padding: 10px 20px;
+  input {
+    @include SubExpand;
+    :active, :hover, :focus {
+      outline: 0;
+      outline-offset: 0;
+    }
+  }
+}
 </style>

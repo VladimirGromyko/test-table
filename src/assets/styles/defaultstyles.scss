@@ -12,6 +12,7 @@
 }
 
 @mixin bordeR {
+  border: 1px solid $primary200;
   border-radius: 4px;
 }
 
@@ -38,11 +39,11 @@
   transition-property: $arguments;
 }
 @mixin SubExpand {
-  padding: 10px 20px;
+  padding: 5px 5px;
   background: $neutral100;
-  color: $primary600;
-  font-size: 18px;
-  font-weight: bold;
+  color: $neutral700;
+  font-size: 16px;
+  font-weight: 500;
   cursor: pointer;
   @include bordeR;
   @include shadow;
@@ -50,11 +51,21 @@
 
   &.open {
     background-color: $primary100;
-    color: $primary500;
+    color: $neutral400;
+    border: 1px solid $primary500;
+    outline: 0;
+    outline-offset: 0;
   }
 
   &:hover {
     color: $primary500;
+    outline: 0;
+    outline-offset: 0;
+  }
+  &:focus {
+    outline: 0;
+    outline-offset: 0;
+    border: 1px solid $primary700;
   }
 }
 
