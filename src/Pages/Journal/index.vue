@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, Ref, ref, watch } from 'vue'
+import { computed, ComputedRef, onMounted, reactive, Ref, ref, watch } from 'vue'
 import qs from "query-string";
 import { RouterLink } from 'vue-router'
 import PageInfoJournalHeader from '@/components/PageInfo/PageInfoJournalHeader.vue'
 import Search from './Search.vue'
 import Footer from './Footer.vue'
 import { merge, range } from "lodash";
-// import { useMainStore } from '@/stores/store'
 import Table from '@/Pages/Journal/Table/Table.vue'
 import TableHeader from '@/Pages/Journal/Table/TableHeader.vue'
-import { useMainStore } from '@/stores/store'
+import { useMainStore, UserCharacteristics } from '@/stores/store'
+import { SortedBlock } from '@/Pages/Journal/index.types'
+import { arrow } from '@/assets/constants/tableConstants'
+import moment from 'moment'
+import { dateComparison } from '@/Pages/Journal/utils/dateComparison'
+
 
 const store = useMainStore();
 
@@ -21,6 +25,7 @@ const data = ref({
   maxPage: 20,
   totalCount: 15,
 })
+const dateOfBirth = "dob";
 // const searchQueryParams = () => {
 //   const query: Record<string, any> = {};
 //   if (pgnData.size) {
@@ -91,8 +96,8 @@ const tableData = computed(() =>
     )
     : []
 );
-const users = computed(() => store.users)
-const userData: Ref<any> = ref([]);
+const users: ComputedRef<UserCharacteristics[]> = computed(() => store.users)
+const userData: Ref<UserCharacteristics[]> = ref([]);
 
 const lookThrough = (value: string) => {
   debugger
@@ -112,14 +117,70 @@ const lookThrough = (value: string) => {
   })
   userData.value = newData
 }
+const handleSort = (block: SortedBlock) => {
+  debugger
+  if (block.arrow === arrow.none) {
+    userData.value = JSON.parse(JSON.stringify(users.value))
+    return
+  }
+  const newUsers = userData.value.sort((a, b) => {
+    if (block.sortField === dateOfBirth) {
+      debugger
+      // const sorted = dateComparison({ first: a, next: b, block})
+      // return sorted
 
+      const momentA = moment(a[block.sortField], "Do MMMM YYYY")
+      const momentB = moment(b[block.sortField], "Do MMMM YYYY")
+      if (block.arrow === arrow.up) {
+        if (moment(momentA).isBefore(momentB)) {
+          return 1;
+        }
+        if (moment(momentA).isAfter(momentB)) {
+          return -1;
+        }
+        if (moment(momentA).isSame(momentB)) {
+          return 0;
+        }
+      } else if (block.arrow === arrow.down) {
+        if (moment(momentA).isBefore(momentB)) {
+          return -1;
+        }
+        if (moment(momentA).isAfter(momentB)) {
+          return 1;
+        }
+        if (moment(momentA).isSame(momentB)) {
+          return 0;
+        }
+      } else {
+        return 0
+      }
+    } else {
+      if (block.arrow === arrow.up) {
+        if (a[block.sortField] < b[block.sortField]) {
+          return -1;
+        }
+        if (a[block.sortField] > b[block.sortField]) {
+          return 1;
+        }
+      } else if (block.arrow === arrow.down) {
+        if (a[block.sortField] < b[block.sortField]) {
+          return 1;
+        }
+        if (a[block.sortField] > b[block.sortField]) {
+          return -1;
+        }
+      } else return 0
+    }
+  })
+  userData.value = newUsers
+}
 onMounted(()=> {
   store.getUsers()
 })
 watch(()=> users.value, (newVal) => {
   debugger
   console.log(newVal)
-  userData.value = newVal.length ? newVal : []
+  userData.value = newVal.length ? JSON.parse(JSON.stringify(newVal)) : []
 })
 </script>
 
@@ -130,10 +191,7 @@ watch(()=> users.value, (newVal) => {
         <PageInfoJournalHeader title="Таблица пользователей" @filter="store.setFilterVisibility" />
         <Search @lookThrough='lookThrough'/>
       </div>
-<!--      <div>-->
-<!--        Пользователи:-->
-<!--      </div>-->
-      <TableHeader />
+      <TableHeader @handleSort="handleSort"/>
       <Table :tableData='userData' />
       <Footer
         :max-page="data?.maxPage ?? 0"

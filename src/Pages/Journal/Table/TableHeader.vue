@@ -1,20 +1,15 @@
 <script setup lang='ts'>
 
-import { ref, Ref } from 'vue'
+import { defineEmits, ref, Ref } from 'vue'
 import Sorting from '@/components/Sorting/Sorting.vue'
+import { ColumnHeadings, SortPackNameType, triangleViewType } from '@/Pages/Journal/index.types'
+import { arrow } from '@/assets/constants/tableConstants'
 
-type triangleViewType = 'none' | 'down' | 'up'
-type SortPackNameType = 'name' | 'cardsCount' | 'updated' | 'user_name' | 'actions' | 'none'
-export type HeadingsElement = {
-  headings: string,
-  sortField: SortPackNameType
-  arrow: triangleViewType
-}
-type ColumnHeadings = HeadingsElement[]
+const emit = defineEmits(["handleSort"]);
 
-const initialColumnHeadings: ColumnHeadings = <HeadingsElement[]>[
+const initialColumnHeadings: ColumnHeadings = <ColumnHeadings>[
   { headings: "Аватар ", sortField: "none", arrow: "none" },
-  { headings: "ФИО", sortField: "user_name", arrow: "none" },
+  { headings: "ФИО", sortField: "fullName", arrow: "none" },
   { headings: "Пол", sortField: "gender", arrow: "none" },
   { headings: "Страна", sortField: "country", arrow: "none" },
   { headings: "Дата рождения", sortField: "dob", arrow: "none" },
@@ -23,20 +18,25 @@ const initialColumnHeadings: ColumnHeadings = <HeadingsElement[]>[
 ]
 
 const columnHeadings: Ref<ColumnHeadings> = ref(initialColumnHeadings)
-
+const handleSort = (block: {sortField: SortPackNameType, arrow: triangleViewType}) => {
+  emit("handleSort", { sortField: block.sortField, arrow: block.arrow })
+  columnHeadings.value.forEach((el) => {
+    if (el.sortField === block.sortField) {
+      el.arrow = block.arrow
+    } else {
+      el.arrow = arrow.none
+    }
+  })
+}
 </script>
 
 <template>
   <div class="wrapper">
     <div v-for="column in columnHeadings" class="column" :key="`${column.headings}`">
-<!--      <div>-->
         <span :class="['column-name', column.sortField]">{{column.headings}}</span>
-        <Sorting :property="column"/>
-<!--      </div>-->
+        <Sorting :property="column" @handleSort="handleSort"/>
     </div>
-
   </div>
-
 </template>
 
 <style scoped lang="scss">

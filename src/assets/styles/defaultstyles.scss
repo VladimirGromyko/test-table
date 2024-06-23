@@ -24,7 +24,7 @@
   cursor: pointer;
 }
 @mixin shadow {
-  box-shadow: 0 1px 4px rgba(26, 26, 67, 0.1);
+  box-shadow: 0 0 0 0.12rem rgba(103, 142, 254, 0.9);
 }
 @mixin shadowM {
   box-shadow: 0 2px 15px rgba(33, 33, 52, 0.1);

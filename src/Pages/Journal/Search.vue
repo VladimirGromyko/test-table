@@ -35,5 +35,11 @@ const handleInput = () => {
       outline-offset: 0;
     }
   }
+  button {
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 10px;
+    padding: 5px;
+  }
 }
 </style>

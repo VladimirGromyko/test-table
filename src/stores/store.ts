@@ -26,15 +26,12 @@ export const useMainStore = defineStore("Main", () => {
 
   const users: Ref<UserCharacteristics[]> = ref([]);
   const getUsers = async() => {
-    debugger
     try {
       const response =
         // await new Promise((res, rej) => {
         // rej("Хрень")
       // })
       JSON.parse(JSON.stringify(userData))
-      debugger
-      console.log(response)
       const data: UserCharacteristics[] = response.results.map((item) => {
         return {
           picture: item.picture.medium,

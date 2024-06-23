@@ -1,82 +1,40 @@
 <script setup lang='ts'>
-import { defineProps, ref } from 'vue'
-import { HeadingsElement } from '@/Pages/Journal/Table/TableHeader'
+import { defineEmits, defineProps } from 'vue'
+import { HeadingsElement, triangleViewType } from '@/Pages/Journal/index.types'
+import { arrow } from '@/assets/constants/tableConstants'
+
 
 interface Props {
   property: HeadingsElement
 }
 
 const props = defineProps<Props>();
-const transparencyUp = ref(true)
-const transparencyDown = ref(true)
-const arrow = {
-  up: "up",
-  down: "down",
-  none: "none"
-}
-const handleClick = (value) => {
-  debugger
-  if (value.direction === arrow.up) {
-    if (transparencyUp.value && !transparencyDown.value) {
-      transparencyDown.value = !transparencyDown.value
-    }
-    transparencyUp.value = !transparencyUp.value
-  } else if (value.direction === arrow.down) {
-    if (transparencyDown.value && !transparencyUp.value) {
-      transparencyUp.value = !transparencyUp.value
-    }
-    transparencyDown.value = !transparencyDown.value
+const emit = defineEmits(["handleSort"]);
+
+const handleClick = (direction: triangleViewType) => {
+  if (direction === props.property.arrow) {
+    emit("handleSort", {  sortField: props.property.sortField, arrow: arrow.none})
+  } else {
+    emit("handleSort", {  sortField: props.property.sortField, arrow: direction})
   }
 }
 </script>
 
 <template>
-  <span class='sort-wrapper'>
-    <div v-if="props.property.arrow === arrow.none" class="arrow-block">
+  <span v-if="props.property.sortField !== 'none'"
+        :class="['sort-wrapper', props.property.arrow !== arrow.none ? 'visible': '']"
+  >
+    <div class="arrow-block">
       <button
-        @click="handleClick({block: arrow.none, direction: arrow.up})"
-        :class="['button', 'arrow-up', transparencyUp ? 'translucent': '']">
+        @click="handleClick(arrow.up)"
+        :class="['button', 'arrow-up', props.property.arrow !== arrow.up ? 'translucent': '']">
       </button>
       <button
-        @click="handleClick({block: arrow.none, direction: arrow.down})"
-        :class="['button', 'arrow-down', transparencyDown ? 'translucent': '']">
+        @click="handleClick(arrow.down)"
+        :class="['button', 'arrow-down', props.property.arrow !== arrow.down ? 'translucent': '']">
       </button>
     </div>
-<!--    <div v-else-if="props.property.arrow === arrow.down" class="arrow-block">-->
-<!--      <button-->
-<!--        @click="handleClick({block: arrow.down, arrow: arrow.down})"-->
-<!--        :class="['button', 'triangle', 'arrow-down', transparency ? 'translucent': '']">-->
-<!--      </button>-->
-<!--      <button-->
-<!--        @click="handleClick({block: arrow.down, arrow: arrow.up})"-->
-<!--        :class="['button', 'triangle', 'arrow-up', transparency ? 'translucent': '']">-->
-<!--      </button>-->
-<!--    </div>-->
-<!--    <div v-else-if="props.property.arrow === arrow.up" class="arrow-block">-->
-<!--      <button-->
-<!--        @click="handleClick({block: arrow.up, arrow: arrow.up})"-->
-<!--        :class="['button', 'triangle', 'arrow-up', transparency ? 'translucent': '']">-->
-<!--      </button>-->
-<!--      <button-->
-<!--        @click="handleClick({block: arrow.up, arrow: arrow.down})"-->
-<!--        :class="['button', 'triangle', 'arrow-down', transparency ? 'translucent': '']">-->
-<!--      </button>-->
-<!--    </div>-->
-
-<!--    {sort === `0${sorting}`-->
-<!--    && <button className={s.button}>-->
-<!--    <div className={s.triangle_down}></div>-->
-<!--  </button>}-->
-<!--    {show !== 'none'-->
-<!--    && <button className={s.buttonGrey} onClick={() => handleClick(sorting)}>-->
-<!--    {show === 'down'-->
-<!--    ? <div className={s.triangle_down}></div>-->
-<!--    : <div className={s.triangle_up}></div>-->
-<!--    }-->
-<!--    </button>-->
-<!--    }-->
   </span>
-
 </template>
 
 <style scoped lang="scss">
@@ -109,5 +67,8 @@ const handleClick = (value) => {
 }
 .translucent {
   opacity: 40%;
+}
+.visible {
+  opacity: 1;
 }
 </style>
