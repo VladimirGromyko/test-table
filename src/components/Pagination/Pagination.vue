@@ -11,6 +11,7 @@ interface Props {
   currentSize: number;
   total: number;
 }
+type NumbersListWithDots = string | number
 
 const props = withDefaults(
   defineProps<Props>(),
@@ -28,11 +29,11 @@ const $emit = defineEmits(['size', 'current', 'page'])
 const isOpen = ref(false)
 const viewItems = ref(20)
 
-const getPaginationGenerator = (currentPageNumber, totalPageNumber, offset = 3) => {
+const getPaginationGenerator = (currentPageNumber: number, totalPageNumber: number, offset: number = 3) => {
   const offsetNumber =
     currentPageNumber <= offset || currentPageNumber > totalPageNumber - offset ? offset : offset - 1
-  const numbersList = []
-  const numbersListWithDots = []
+  const numbersList: number[] = []
+  const numbersListWithDots: NumbersListWithDots[] = []
 
   // If itemsPerPage is less than what the user selected with the Select component or if there is no page or only one page:
   if (totalPageNumber <= 1 || totalPageNumber === undefined) return [1]
@@ -47,7 +48,7 @@ const getPaginationGenerator = (currentPageNumber, totalPageNumber, offset = 3) 
   numbersList.push(totalPageNumber)
 
   // Add three dots to the list of numbers:
-  numbersList.reduce((accumulator, currentValue) => {
+  numbersList.reduce((accumulator: number, currentValue: number) => {
     if (accumulator === 1) {
       numbersListWithDots.push(accumulator)
     }
@@ -65,13 +66,13 @@ const pagination = computed(() => {
   return getPaginationGenerator(props.currentPage, props.maxPage)
 })
 
-const handleSelectSize = (size) => {
+const handleSelectSize = (size: number) => {
   viewItems.value = size
   isOpen.value = false
   $emit('size', size)
 }
 
-const handleSetPage = (item) => {
+const handleSetPage = (item: number) => {
   const itemNumber = Number(item)
   if (!isNaN(itemNumber)) {
     $emit('current', props.currentPage)
@@ -85,7 +86,7 @@ const handlePrevPage = () => {
 }
 
 const handleNextPage = () => {
-  const nextPage = props.currentPage !== props.maxPage ? props.currentPage + 1 : props.currentPage
+  const nextPage: number = props.currentPage !== props.maxPage ? props.currentPage + 1 : props.currentPage
   handleSetPage(nextPage)
 }
 

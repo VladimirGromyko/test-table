@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useMainStore } from '@/stores/store'
-import { computed, Ref, ref } from 'vue'
+import { computed, type Ref, ref } from 'vue'
 import { defineEmits } from 'vue'
 
 const emit = defineEmits(['lookThrough'])

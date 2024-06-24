@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { Toastify } from '@/stores/utils'
 import userData from '@/assets/data/api.json'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
@@ -30,7 +29,7 @@ export const useMainStore = defineStore("Main", () => {
         }
       })
     } catch (e) {
-      Toastify("Ошибка при разборе данных", "error")
+      console.log("Ошибка при разборе данных. Текст: ", e)
     }
   }
 

@@ -1,39 +1,13 @@
-# test-table
+# Test-table
 
-This template should help get you started developing with Vue 3 in Vite.
+This mini-project was created as an example of working with tables.
+Created by:
+1. Search (filtering), 
+2. Sorting,
+3. Pagination (without using libraries),
+4. Rowing with the ability to reload the page (without data loss).
 
-## Recommended IDE Setup
+Technology stack: Vue 3 + Vite, HTML, CSS, JavaScript + Typescript, gh-pages
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## [Link](https://vladimirgromyko.github.io/test-table)
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```

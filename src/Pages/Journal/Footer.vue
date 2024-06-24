@@ -11,15 +11,15 @@ defineProps<{
 
 const emit = defineEmits(["size", "current", "page"]);
 
-const emitPage = (value) => {
+const emitPage = (value:  number) => {
   emit("page", value);
 };
 
-const emitCurrent = (value) => {
+const emitCurrent = (value: number) => {
   emit("current", value);
 };
 
-const emitSize = (value) => {
+const emitSize = (value: number) => {
   emit("size", value);
 };
 </script>

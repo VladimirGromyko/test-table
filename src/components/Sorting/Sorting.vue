@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 import { defineEmits, defineProps } from 'vue'
-import { HeadingsElement, triangleViewType } from '@/Pages/Journal/index.types'
+import { type HeadingsElement, type TriangleViewType } from '@/Pages/Journal/index.types'
 import { arrow } from '@/assets/constants/tableConstants'
 
 
@@ -11,7 +11,7 @@ interface Props {
 const props = defineProps<Props>()
 const emit = defineEmits(['handleSort'])
 
-const handleClick = (direction: triangleViewType) => {
+const handleClick = (direction: TriangleViewType) => {
   if (direction === props.property.arrow) {
     emit('handleSort', { sortField: props.property.sortField, arrow: arrow.none })
   } else {

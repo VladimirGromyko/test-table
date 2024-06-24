@@ -1,8 +1,8 @@
 <script setup lang='ts'>
 
-import { defineEmits, ref, Ref } from 'vue'
+import { defineEmits, ref, type Ref } from 'vue'
 import Sorting from '@/components/Sorting/Sorting.vue'
-import { ColumnHeadings, SortPackNameType, triangleViewType } from '@/Pages/Journal/index.types'
+import { type ColumnHeadings, type SortPackNameType, type TriangleViewType } from '@/Pages/Journal/index.types'
 import { arrow } from '@/assets/constants/tableConstants'
 
 const emit = defineEmits(["handleSort"]);
@@ -18,7 +18,7 @@ const initialColumnHeadings: ColumnHeadings = <ColumnHeadings>[
 ]
 
 const columnHeadings: Ref<ColumnHeadings> = ref(initialColumnHeadings)
-const handleSort = (block: {sortField: SortPackNameType, arrow: triangleViewType}) => {
+const handleSort = (block: {sortField: SortPackNameType, arrow: TriangleViewType}) => {
   emit("handleSort", { sortField: block.sortField, arrow: block.arrow })
   columnHeadings.value.forEach((el) => {
     if (el.sortField === block.sortField) {

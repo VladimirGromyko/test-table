@@ -1,5 +1,5 @@
-export type triangleViewType = 'none' | 'down' | 'up'
-export type SortPackNameType = "fullName" | "gender" | "country" | "dob" | "email" | "phone"
+export type TriangleViewType = 'none' | 'down' | 'up'
+export type SortPackNameType = 'none' | "fullName" | "gender" | "country" | "dob" | "email" | "phone"
 export interface UserCharacteristics extends UniversalObject<string> {
   picture: string,
   fullName: string,
@@ -12,13 +12,13 @@ export interface UserCharacteristics extends UniversalObject<string> {
 export interface HeadingsElement {
   headings: string,
   sortField: SortPackNameType
-  arrow: triangleViewType
+  arrow: TriangleViewType
 }
 export type ColumnHeadings = HeadingsElement[]
 
 export interface SortedBlock {
   sortField: SortPackNameType
-  arrow: triangleViewType
+  arrow: TriangleViewType
 }
 export interface UniversalObject<T> {
   [key: string]: T;
