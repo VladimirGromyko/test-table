@@ -4,8 +4,8 @@ import { RouterLink } from 'vue-router'
 
 <template>
   <nav>
-    <RouterLink to="/">Главная</RouterLink>
-    <RouterLink to="/table">Таблица</RouterLink>
+    <RouterLink to='/'>Главная</RouterLink>
+    <RouterLink to='/table'>Таблица</RouterLink>
   </nav>
 </template>
 
@@ -13,7 +13,6 @@ import { RouterLink } from 'vue-router'
 nav {
   min-height: 40px;
   display: flex;
-  //justify-content: center;
   padding-left: 3rem;
   align-items: center;
   gap: 3rem;

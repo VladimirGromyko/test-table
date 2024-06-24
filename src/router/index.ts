@@ -9,7 +9,7 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
       meta: {
-        title: "Main"
+        title: 'Main'
       }
     },
     {
@@ -17,12 +17,12 @@ const router = createRouter({
       name: 'table',
       component: () => import('../Pages/Journal/index.vue'),
       meta: {
-        title: "Таблица"
+        title: 'Таблица'
       },
       children: [
         {
-          path: ":pid",
-          component: () => import('../Pages/Journal/index.vue'),
+          path: ':pid',
+          component: () => import('../Pages/Journal/index.vue')
         }
       ]
     }

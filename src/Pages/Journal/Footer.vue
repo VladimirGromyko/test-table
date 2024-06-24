@@ -1,17 +1,3 @@
-<template>
-  <footer class="page-footer">
-    <VuePagination
-      :current-page="currentPage"
-      :max-page="maxPage"
-      :current-size="currentSize"
-      :total="total"
-      @page="emitPage"
-      @current="emitCurrent"
-      @size="emitSize"
-    />
-  </footer>
-</template>
-
 <script setup lang="ts">
 import VuePagination from "@/components/Pagination/Pagination.vue";
 import { defineProps, defineEmits } from "vue"
@@ -37,6 +23,21 @@ const emitSize = (value) => {
   emit("size", value);
 };
 </script>
+
+<template>
+  <footer class="page-footer">
+    <VuePagination
+      :current-page="currentPage"
+      :max-page="maxPage"
+      :current-size="currentSize"
+      :total="total"
+      @page="emitPage"
+      @current="emitCurrent"
+      @size="emitSize"
+    />
+  </footer>
+</template>
+
 <style lang="scss" scoped>
 .page-footer {
   display: flex;

@@ -8,14 +8,14 @@ interface Props {
   property: HeadingsElement
 }
 
-const props = defineProps<Props>();
-const emit = defineEmits(["handleSort"]);
+const props = defineProps<Props>()
+const emit = defineEmits(['handleSort'])
 
 const handleClick = (direction: triangleViewType) => {
   if (direction === props.property.arrow) {
-    emit("handleSort", {  sortField: props.property.sortField, arrow: arrow.none})
+    emit('handleSort', { sortField: props.property.sortField, arrow: arrow.none })
   } else {
-    emit("handleSort", {  sortField: props.property.sortField, arrow: direction})
+    emit('handleSort', { sortField: props.property.sortField, arrow: direction })
   }
 }
 </script>
@@ -24,31 +24,33 @@ const handleClick = (direction: triangleViewType) => {
   <span v-if="props.property.sortField !== 'none'"
         :class="['sort-wrapper', props.property.arrow !== arrow.none ? 'visible': '']"
   >
-    <div class="arrow-block">
+    <div class='arrow-block'>
       <button
-        @click="handleClick(arrow.up)"
+        @click='handleClick(arrow.up)'
         :class="['button', 'arrow-up', props.property.arrow !== arrow.up ? 'translucent': '']">
       </button>
       <button
-        @click="handleClick(arrow.down)"
+        @click='handleClick(arrow.down)'
         :class="['button', 'arrow-down', props.property.arrow !== arrow.down ? 'translucent': '']">
       </button>
     </div>
   </span>
 </template>
 
-<style scoped lang="scss">
+<style scoped lang='scss'>
 .sort-wrapper {
   display: flex;
   opacity: 0;
   transition: opacity 0.2s ease-in-out;
 }
+
 .arrow-block {
   display: flex;
   flex-direction: column;
   gap: 3px;
 }
-.button{
+
+.button {
   border: none;
   background: none;
   padding: 0;
@@ -59,15 +61,19 @@ const handleClick = (direction: triangleViewType) => {
   border-right: 5px solid transparent;
   cursor: pointer;
 }
+
 .arrow-down {
   border-top: 11px solid $neutral900;
 }
+
 .arrow-up {
   border-bottom: 11px solid $neutral900;
 }
+
 .translucent {
   opacity: 40%;
 }
+
 .visible {
   opacity: 1;
 }

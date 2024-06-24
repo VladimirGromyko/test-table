@@ -1,147 +1,149 @@
+<script setup lang='ts'>
+import { computed, withDefaults, defineProps, defineEmits, ref, watch } from 'vue'
+
+import ArrowSelect from '@/assets/image/arrow-select.svg'
+import PaginationArrow from '@/assets/image/pagination-arrow.svg'
+
+interface Props {
+  maxPage: number;
+  label?: string;
+  currentPage: number;
+  currentSize: number;
+  total: number;
+}
+
+const props = withDefaults(
+  defineProps<Props>(),
+  {
+    maxPage: 1,
+    label: 'Записей на странице',
+    currentPage: 1,
+    currentSize: 20,
+    total: 0
+  }
+)
+
+const $emit = defineEmits(['size', 'current', 'page'])
+
+const isOpen = ref(false)
+const viewItems = ref(20)
+
+const getPaginationGenerator = (currentPageNumber, totalPageNumber, offset = 3) => {
+  const offsetNumber =
+    currentPageNumber <= offset || currentPageNumber > totalPageNumber - offset ? offset : offset - 1
+  const numbersList = []
+  const numbersListWithDots = []
+
+  // If itemsPerPage is less than what the user selected with the Select component or if there is no page or only one page:
+  if (totalPageNumber <= 1 || totalPageNumber === undefined) return [1]
+
+  // Create list of numbers:
+  numbersList.push(1)
+  for (let i = currentPageNumber - offsetNumber; i <= currentPageNumber + offsetNumber; i++) {
+    if (i < totalPageNumber && i > 1) {
+      numbersList.push(i)
+    }
+  }
+  numbersList.push(totalPageNumber)
+
+  // Add three dots to the list of numbers:
+  numbersList.reduce((accumulator, currentValue) => {
+    if (accumulator === 1) {
+      numbersListWithDots.push(accumulator)
+    }
+    if (currentValue - accumulator !== 1) {
+      numbersListWithDots.push('...')
+    }
+    numbersListWithDots.push(currentValue)
+
+    return currentValue
+  })
+
+  return numbersListWithDots
+}
+const pagination = computed(() => {
+  return getPaginationGenerator(props.currentPage, props.maxPage)
+})
+
+const handleSelectSize = (size) => {
+  viewItems.value = size
+  isOpen.value = false
+  $emit('size', size)
+}
+
+const handleSetPage = (item) => {
+  const itemNumber = Number(item)
+  if (!isNaN(itemNumber)) {
+    $emit('current', props.currentPage)
+    $emit('page', itemNumber)
+  }
+}
+
+const handlePrevPage = () => {
+  const prevPage = props.currentPage !== 1 ? props.currentPage - 1 : props.currentPage
+  handleSetPage(prevPage)
+}
+
+const handleNextPage = () => {
+  const nextPage = props.currentPage !== props.maxPage ? props.currentPage + 1 : props.currentPage
+  handleSetPage(nextPage)
+}
+
+watch(
+  () => props.currentSize,
+  (value) => {
+    viewItems.value = value
+  }
+)
+</script>
+
 <template>
-  <div class="pagination-wrapper">
-    <div class="size-sheet-wrapper">
-      <div class="pagination-total">
+  <div class='pagination-wrapper'>
+    <div class='size-sheet-wrapper'>
+      <div class='pagination-total'>
         <span>Всего</span>
-        <span>{{total}}</span>
+        <span>{{ total }}</span>
       </div>
-      <div class="size-sheet-container">
-        <button class="size-sheet" :class="{ open: isOpen }" @click="isOpen = !isOpen">
+      <div class='size-sheet-container'>
+        <button class='size-sheet' :class='{ open: isOpen }' @click='isOpen = !isOpen'>
           {{ viewItems }}
-          <arrow-select class="arrow" :class="{ open: isOpen }" />
+          <arrow-select class='arrow' :class='{ open: isOpen }' />
         </button>
-        <div class="options" v-show="isOpen">
-          <button class="select-size-btn" @click="handleSelectSize(20)">20</button>
-          <button class="select-size-btn" @click="handleSelectSize(40)">40</button>
-          <button class="select-size-btn" @click="handleSelectSize(80)">80</button>
+        <div class='options' v-show='isOpen'>
+          <button class='select-size-btn' @click='handleSelectSize(20)'>20</button>
+          <button class='select-size-btn' @click='handleSelectSize(40)'>40</button>
+          <button class='select-size-btn' @click='handleSelectSize(80)'>80</button>
         </div>
       </div>
-      <span class="pagination-label">{{ label }}</span>
+      <span class='pagination-label'>{{ label }}</span>
     </div>
-    <div class="pagination">
-      <button @click="handlePrevPage" class="pagination-btn">
-        <pagination-arrow class="left-arrow" />
+    <div class='pagination'>
+      <button @click='handlePrevPage' class='pagination-btn'>
+        <pagination-arrow class='left-arrow' />
       </button>
-      <ul class="pagination-item-container">
-        <li class="pagination-item" v-for="(item, index) in pagination" :key="index">
+      <ul class='pagination-item-container'>
+        <li class='pagination-item' v-for='(item, index) in pagination' :key='index'>
           <template v-if="typeof item === 'number'">
             <button
-              @click="handleSetPage(item)"
-              class="pagination-btn"
+              @click='handleSetPage(item)'
+              class='pagination-btn'
               :class="{ 'current-page': currentPage === item }"
-            >{{String(item)}}</button>
+            >{{ String(item) }}
+            </button>
           </template>
           <template v-if="typeof item === 'string'">
             <span>{{ item }}</span>
           </template>
         </li>
       </ul>
-      <button @click="handleNextPage" class="pagination-btn">
-        <pagination-arrow class="right-arrow" />
+      <button @click='handleNextPage' class='pagination-btn'>
+        <pagination-arrow class='right-arrow' />
       </button>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import { computed, ref, watch } from "vue";
-
-import ArrowSelect from "@/assets/image/arrow-select.svg";
-import PaginationArrow from "@/assets/image/pagination-arrow.svg";
-
-const getPaginationGenerator = (currentPageNumber, totalPageNumber, offset = 3) => {
-  const offsetNumber =
-    currentPageNumber <= offset || currentPageNumber > totalPageNumber - offset ? offset : offset - 1;
-  const numbersList = [];
-  const numbersListWithDots = [];
-
-  // If itemsPerPage is less than what the user selected with the Select component or if there is no page or only one page:
-  if (totalPageNumber <= 1 || totalPageNumber === undefined) return [1];
-
-  // Create list of numbers:
-  numbersList.push(1);
-  for (let i = currentPageNumber - offsetNumber; i <= currentPageNumber + offsetNumber; i++) {
-    if (i < totalPageNumber && i > 1) {
-      numbersList.push(i);
-    }
-  }
-  numbersList.push(totalPageNumber);
-
-  // Add three dots to the list of numbers:
-  numbersList.reduce((accumulator, currentValue) => {
-    if (accumulator === 1) {
-      numbersListWithDots.push(accumulator);
-    }
-    if (currentValue - accumulator !== 1) {
-      numbersListWithDots.push("...");
-    }
-    numbersListWithDots.push(currentValue);
-
-    return currentValue;
-  });
-
-  return numbersListWithDots;
-};
-
-const props = withDefaults(
-  defineProps<{
-    maxPage: number;
-    label?: string;
-    currentPage: number;
-    currentSize: number;
-    total: number;
-  }>(),
-  {
-    maxPage: 1,
-    label: "Записей на странице",
-    currentPage: 1,
-    currentSize: 20,
-    total: 0,
-  }
-);
-
-const $emit = defineEmits(["size", "current", "page"]);
-
-const isOpen = ref(false);
-const viewItems = ref(20);
-
-const pagination = computed(() => {
-  return getPaginationGenerator(props.currentPage, props.maxPage);
-});
-
-const handleSelectSize = (size) => {
-  viewItems.value = size;
-  isOpen.value = false;
-  $emit("size", size);
-};
-
-const handleSetPage = (item) => {
-  const itemNumber = Number(item);
-  if (!isNaN(itemNumber)) {
-    $emit("current", props.currentPage);
-    $emit("page", itemNumber);
-  }
-};
-
-const handlePrevPage = () => {
-  const prevPage = props.currentPage !== 1 ? props.currentPage - 1 : props.currentPage;
-  handleSetPage(prevPage);
-};
-
-const handleNextPage = () => {
-  const nextPage = props.currentPage !== props.maxPage ? props.currentPage + 1 : props.currentPage;
-  handleSetPage(nextPage);
-};
-
-watch(
-  () => props.currentSize,
-  (value) => {
-    viewItems.value = value;
-  }
-);
-</script>
-
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 .pagination-wrapper {
   display: flex;
   position: relative;
@@ -247,7 +249,7 @@ watch(
   transform: rotate(180deg);
 }
 
-.pagination-total{
+.pagination-total {
   display: flex;
   gap: 10px;
   padding: 0 20px;
@@ -272,6 +274,7 @@ watch(
 ul {
   padding-inline-start: 0;
 }
+
 .current-page {
   background-color: $white;
   color: $primary700;

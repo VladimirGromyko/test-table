@@ -11,7 +11,6 @@ const searchString: Ref<string> = ref('')
 
 
 const handleInput = () => {
-  debugger
   emit('lookThrough',  searchString.value.trim());
 }
 

@@ -6,10 +6,7 @@ import type { UserCharacteristics } from '@/Pages/Journal/index.types'
 interface Props {
   tableData: UserCharacteristics[]
 }
-
 const props = defineProps<Props>()
-
-console.log(props.tableData)
 </script>
 
 <template>
