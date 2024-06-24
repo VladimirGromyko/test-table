@@ -7,7 +7,7 @@ Created by:
 3. Pagination (without using libraries),
 4. Routing with the ability to reload the page (without data loss).
 
-Technology stack: Vue 3 + Vite, HTML, CSS, JavaScript + Typescript, gh-pages
+Technology stack: Vue 3 + Vite, Pinia, Vue-Route HTML, CSS, JavaScript + Typescript, gh-pages
 
 ## [Link](https://vladimirgromyko.github.io/test-table)
 
