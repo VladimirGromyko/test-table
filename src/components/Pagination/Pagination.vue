@@ -11,36 +11,34 @@
           <arrow-select class="arrow" :class="{ open: isOpen }" />
         </button>
         <div class="options" v-show="isOpen">
-          <VueButton class="select-size-btn" @click="handleSelectSize(20)" label="20" variant="text" />
-          <VueButton class="select-size-btn" @click="handleSelectSize(40)" label="40" variant="text" />
-          <VueButton class="select-size-btn" @click="handleSelectSize(80)" label="80" variant="text" />
+          <button class="select-size-btn" @click="handleSelectSize(20)">20</button>
+          <button class="select-size-btn" @click="handleSelectSize(40)">40</button>
+          <button class="select-size-btn" @click="handleSelectSize(80)">80</button>
         </div>
       </div>
       <span class="pagination-label">{{ label }}</span>
     </div>
     <div class="pagination">
-      <VueButton variant="text" @click="handlePrevPage">
+      <button @click="handlePrevPage" class="pagination-btn">
         <pagination-arrow class="left-arrow" />
-      </VueButton>
+      </button>
       <ul class="pagination-item-container">
         <li class="pagination-item" v-for="(item, index) in pagination" :key="index">
           <template v-if="typeof item === 'number'">
-            <VueButton
+            <button
               @click="handleSetPage(item)"
-              variant="text"
               class="pagination-btn"
               :class="{ 'current-page': currentPage === item }"
-              :label="String(item)"
-            />
+            >{{String(item)}}</button>
           </template>
           <template v-if="typeof item === 'string'">
             <span>{{ item }}</span>
           </template>
         </li>
       </ul>
-      <VueButton variant="text" @click="handleNextPage">
+      <button @click="handleNextPage" class="pagination-btn">
         <pagination-arrow class="right-arrow" />
-      </VueButton>
+      </button>
     </div>
   </div>
 </template>
@@ -178,11 +176,13 @@ watch(
 }
 
 .select-size-btn {
+  @include btn;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   width: 100%;
   padding: 8px 14px;
+  font-weight: normal;
   transition: background-color 0.3s;
   color: $neutral800;
 
@@ -263,11 +263,15 @@ watch(
 }
 
 .pagination-btn {
+  @include btn;
   width: 32px;
   height: 32px;
   font-weight: 500;
 }
 
+ul {
+  padding-inline-start: 0;
+}
 .current-page {
   background-color: $white;
   color: $primary700;

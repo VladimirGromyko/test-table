@@ -1,6 +1,7 @@
 <script setup lang='ts'>
 import { defineProps } from 'vue'
-import { UserCharacteristics } from '@/stores/store'
+import type { UserCharacteristics } from '@/Pages/Journal/index.types'
+
 
 interface Props {
   tableData: UserCharacteristics[]

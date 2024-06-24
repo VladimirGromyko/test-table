@@ -18,7 +18,9 @@ a,
   padding: 3px;
   border-radius: 5px;
 }
-
+ol, ul {
+  list-style: none;
+}
 @media (hover: hover) {
   a:hover {
     /*color: hsla(160, 100%, 37%, 0.3);*/

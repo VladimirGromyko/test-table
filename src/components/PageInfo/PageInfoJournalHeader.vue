@@ -4,7 +4,6 @@
       <h1>{{ title }}</h1>
       <slot />
     </div>
-<!--    <button class="filter-btn" variant="accent" @click="handleClickFilter">-->
     <button class="filter-btn" @click="handleClickFilter">
       <FilterIcon width="10" height="10" class="icon-filter" />Фильтр
     </button>
@@ -15,13 +14,10 @@
 import FilterIcon from "@/assets/image/filter.svg";
 import { defineEmits, defineProps } from 'vue'
 
-defineProps<{
-  title: string;
-}>();
+defineProps<{ title: string }>();
+
 const emit = defineEmits(["filter"]);
-const handleClickFilter = () => {
-  emit("filter");
-};
+const handleClickFilter = () => emit("filter");
 </script>
 <style lang="scss" scoped>
 .button-wrapper {

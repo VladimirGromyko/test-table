@@ -19,7 +19,6 @@ const handleInput = () => {
 
 <template>
   <div v-show="visibility" class="wrapper">
-    <div>А сейчас поищем что-нибудь</div>
     <input v-model='searchString' type='text'>
     <button @click='handleInput'>Поиск</button>
   </div>
