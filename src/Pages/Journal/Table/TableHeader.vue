@@ -1,8 +1,9 @@
 <script setup lang='ts'>
 
-import { defineEmits, ref, type Ref } from 'vue'
+import { defineEmits, ref } from 'vue'
+import type { Ref } from 'vue'
+import type { ColumnHeadings, SortPackNameType, TriangleViewType } from '@/Pages/Journal/index.types'
 import Sorting from '@/components/Sorting/Sorting.vue'
-import { type ColumnHeadings, type SortPackNameType, type TriangleViewType } from '@/Pages/Journal/index.types'
 import { arrow } from '@/assets/constants/tableConstants'
 
 const emit = defineEmits(["handleSort"]);

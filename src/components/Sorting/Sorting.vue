@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 import { defineEmits, defineProps } from 'vue'
-import { type HeadingsElement, type TriangleViewType } from '@/Pages/Journal/index.types'
+import type { HeadingsElement, TriangleViewType } from '@/Pages/Journal/index.types'
 import { arrow } from '@/assets/constants/tableConstants'
 
 

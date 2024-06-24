@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, type ComputedRef, onMounted, reactive, type Ref, ref, watch } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
 import PageInfoJournalHeader from '@/components/PageInfo/PageInfoJournalHeader.vue'
 import Search from './Search.vue'
 import Footer from './Footer.vue'
@@ -11,7 +12,8 @@ import { arrow } from '@/assets/constants/tableConstants'
 import { dateComparison } from '@/Pages/Journal/utils/dateComparison'
 import type { SortedBlock, UserCharacteristics } from '@/Pages/Journal/index.types'
 import { stringComparison } from '@/Pages/Journal/utils/stringComparison'
-import { type RouteLocationRaw, type Router, useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import type {RouteLocationRaw, Router } from 'vue-router'
 
 const route = useRoute();
 const router: Router = useRouter();
