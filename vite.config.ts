@@ -5,6 +5,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import svgLoader from 'vite-svg-loader'
 
 export default defineConfig({
+  base: '/test-table',
   plugins: [
     vue(),
     vueDevTools(),
@@ -25,5 +26,4 @@ export default defineConfig({
       }
     }
   },
-  publicPath: '/test-table/'
 })
