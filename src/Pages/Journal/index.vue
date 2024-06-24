@@ -106,11 +106,6 @@ const userDataBeforeSorting: Ref<UserCharacteristics[]> = ref([]);
 
 const maxPage = computed(() => Math.ceil(userData.value?.length / pgnData.size))
 const total = computed(() => userData.value.length)
-const pageCounts = computed(() => {
-  const numFirstElement = 1;
-  const numLastElement = Math.ceil(userData.value?.length / pgnData.size);
-  return userData.value && numFirstElement ? range(numFirstElement, numLastElement + 1) : []
-});
 
 const tableData: Ref<UserCharacteristics[]> = ref([])
 
@@ -164,7 +159,6 @@ const lookThrough = (value: string) => {
 }
 
 const handleSort = (block: SortedBlock) => {
-  debugger
   if (block.arrow === arrow.none) {
     userData.value = JSON.parse(JSON.stringify(userDataBeforeSorting.value))
     upDateTable();
