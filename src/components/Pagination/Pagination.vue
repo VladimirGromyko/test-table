@@ -35,10 +35,8 @@ const getPaginationGenerator = (currentPageNumber: number, totalPageNumber: numb
   const numbersList: number[] = []
   const numbersListWithDots: NumbersListWithDots[] = []
 
-  // If itemsPerPage is less than what the user selected with the Select component or if there is no page or only one page:
   if (totalPageNumber <= 1 || totalPageNumber === undefined) return [1]
 
-  // Create list of numbers:
   numbersList.push(1)
   for (let i = currentPageNumber - offsetNumber; i <= currentPageNumber + offsetNumber; i++) {
     if (i < totalPageNumber && i > 1) {
@@ -47,7 +45,6 @@ const getPaginationGenerator = (currentPageNumber: number, totalPageNumber: numb
   }
   numbersList.push(totalPageNumber)
 
-  // Add three dots to the list of numbers:
   numbersList.reduce((accumulator: number, currentValue: number) => {
     if (accumulator === 1) {
       numbersListWithDots.push(accumulator)
