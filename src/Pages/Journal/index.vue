@@ -157,6 +157,9 @@ watch(()=> users.value, (newVal) => {
 watch(() => route.query.pageNum, () => {
     setTableData();
 })
+watch(() => route.query.size, () => {
+  setTableData();
+})
 </script>
 
 <template>
