@@ -115,7 +115,6 @@ const upDateTable = () => {
 }
 
 const lookThrough = (value: string) => {
-  debugger
   const newData = users.value.filter((el) => {
     let check = false
     const userFieldKeys = Object.keys(el)
