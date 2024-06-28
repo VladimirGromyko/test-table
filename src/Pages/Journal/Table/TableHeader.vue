@@ -1,24 +1,15 @@
 <script setup lang='ts'>
 
-import { defineEmits, ref } from 'vue'
+import { defineEmits, defineProps, ref } from 'vue'
 import type { Ref } from 'vue'
 import type { ColumnHeadings, SortPackNameType, TriangleViewType } from '@/Pages/Journal/index.types'
 import Sorting from '@/components/Sorting/Sorting.vue'
 import { arrow } from '@/assets/constants/tableConstants'
 
+const props = defineProps<{columnHeadings: ColumnHeadings}>()
 const emit = defineEmits(["handleSort"]);
 
-const initialColumnHeadings: ColumnHeadings = <ColumnHeadings>[
-  { headings: "Аватар ", sortField: "none", arrow: "none" },
-  { headings: "ФИО", sortField: "fullName", arrow: "none" },
-  { headings: "Пол", sortField: "gender", arrow: "none" },
-  { headings: "Страна", sortField: "country", arrow: "none" },
-  { headings: "Дата рождения", sortField: "dob", arrow: "none" },
-  { headings: "Адрес электронной почты", sortField: "email", arrow: "none" },
-  { headings: "Телефон", sortField: "phone", arrow: "none" }
-]
-
-const columnHeadings: Ref<ColumnHeadings> = ref(initialColumnHeadings)
+const columnHeadings: Ref<ColumnHeadings> = ref(props.columnHeadings)
 const handleSort = (block: {sortField: SortPackNameType, arrow: TriangleViewType}) => {
   emit("handleSort", { sortField: block.sortField, arrow: block.arrow })
   columnHeadings.value.forEach((el) => {

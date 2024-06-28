@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { computed, onMounted, type Reactive, reactive, ref, watch } from 'vue'
 import type { ComputedRef, Ref } from 'vue'
 import PageInfoJournalHeader from '@/components/PageInfo/PageInfoJournalHeader.vue'
 import Search from './Search.vue'
@@ -10,7 +10,7 @@ import { useMainStore } from '@/stores/store'
 
 import { arrow } from '@/assets/constants/tableConstants'
 import { dateComparison } from '@/Pages/Journal/utils/dateComparison'
-import type { SortedBlock, UserCharacteristics } from '@/Pages/Journal/index.types'
+import type { ColumnHeadings, SortedBlock, UserCharacteristics } from '@/Pages/Journal/index.types'
 import { stringComparison } from '@/Pages/Journal/utils/stringComparison'
 import { useRoute, useRouter } from 'vue-router'
 import type {RouteLocationRaw, Router } from 'vue-router'
@@ -22,6 +22,15 @@ const store = useMainStore();
 const startPage = 1;
 const startSize = 20;
 const dateOfBirth = "dob";
+const initialColumnHeadings: ColumnHeadings = [
+  { headings: "Аватар ", sortField: "none", arrow: "none" },
+  { headings: "ФИО", sortField: "fullName", arrow: "none" },
+  { headings: "Пол", sortField: "gender", arrow: "none" },
+  { headings: "Страна", sortField: "country", arrow: "none" },
+  { headings: "Дата рождения", sortField: "dob", arrow: "none" },
+  { headings: "Адрес электронной почты", sortField: "email", arrow: "none" },
+  { headings: "Телефон", sortField: "phone", arrow: "none" }
+]
 
 const pgnData = reactive({ pageNum: startPage, size: startSize });
 
@@ -29,6 +38,7 @@ const users:  ComputedRef<UserCharacteristics[]> = computed(() => store.users)
 const userData: Ref<UserCharacteristics[]> = ref([]);
 const tableData: Ref<UserCharacteristics[]> = ref([])
 const userDataBeforeSorting: Ref<UserCharacteristics[]> = ref([]);
+const columnHeadings: Reactive<ColumnHeadings> = reactive(initialColumnHeadings)
 
 const maxPage = computed(() => Math.ceil(userData.value?.length / pgnData.size))
 const total = computed(() => userData.value.length)
@@ -105,6 +115,7 @@ const upDateTable = () => {
 }
 
 const lookThrough = (value: string) => {
+  debugger
   const newData = users.value.filter((el) => {
     let check = false
     const userFieldKeys = Object.keys(el)
@@ -122,6 +133,7 @@ const lookThrough = (value: string) => {
   userData.value = newData
   pgnData.pageNum = startPage;
   userDataBeforeSorting.value = JSON.parse(JSON.stringify(userData.value))
+  columnHeadings.forEach((el) => el.arrow = arrow.none)
   upDateTable();
 }
 
@@ -169,7 +181,7 @@ watch(() => route.query.size, () => {
         <PageInfoJournalHeader title="Таблица пользователей" @filter="handleChangeVisibleFilter" />
         <Search @lookThrough='lookThrough'/>
       </div>
-      <TableHeader @handleSort="handleSort"/>
+      <TableHeader :columnHeadings="columnHeadings" @handleSort="handleSort"/>
       <Table :tableData='tableData' />
       <Footer
         :max-page="maxPage ?? 0"
